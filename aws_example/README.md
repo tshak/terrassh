@@ -1,4 +1,4 @@
-This folder provides an end-to-end example which builds two machines, sets up an SSH key, and configures TerraSSH. See [outputs.tf](output.tf) for the TerraSSH configuration.
+This folder provides an end-to-end example which builds two machines, sets up an SSH key, and configures TerraSSH. See [outputs.tf](outputs.tf) for the TerraSSH configuration.
 
 ## Running
 
