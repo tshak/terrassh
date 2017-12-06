@@ -34,9 +34,9 @@ type stringArrayJSONValue struct {
 
 func main() {
 	validateArgs()
-	prefix := strings.TrimSpace(os.Args[1])
 	validateTerraform()
 
+	prefix := strings.TrimSpace(os.Args[1])
 	hosts := getHosts(prefix)
 	hostIndex := getHostIndex(len(hosts), os.Args)
 
@@ -91,46 +91,29 @@ func execSSH(args sshArgs) {
 }
 
 func getSSHKeyPath(prefix string) string {
-	sshKeyPathOutputVar := fmt.Sprintf("%s%s", prefix, SSHKeyPathSuffix)
-	rawOutput, err := execTerraformOutput(sshKeyPathOutputVar)
-	if err != nil {
-		fatalTerraformOutput(sshKeyPathOutputVar, err)
-	}
-
-	var parsed stringJSONValue
-	if err := json.Unmarshal(rawOutput, &parsed); err != nil {
-		fatal(fmt.Sprintf("Unable to parse %s: %s\nOutput from terraform:\n%s",
-			sshKeyPathOutputVar, err, rawOutput))
-	}
-	return parsed.Value
+	return unmarshalValueString(execTerraformOutput(prefix, SSHKeyPathSuffix))
 }
 
 func getSSHUsername(prefix string) string {
-	outputVar := fmt.Sprintf("%s%s", prefix, SSHUsername)
-	rawOutput, err := execTerraformOutput(outputVar)
-	if err != nil {
-		fatalTerraformOutput(outputVar, err)
-	}
+	return unmarshalValueString(execTerraformOutput(prefix, SSHUsername))
+}
 
+func unmarshalValueString(outputContent []byte, outputVar string) string {
 	var parsed stringJSONValue
-	if err := json.Unmarshal(rawOutput, &parsed); err != nil {
+	if err := json.Unmarshal(outputContent, &parsed); err != nil {
 		fatal(fmt.Sprintf("Unable to parse %s: %s\nOutput from terraform:\n%s",
-			outputVar, err, rawOutput))
+			outputVar, err, outputContent))
 	}
 	return parsed.Value
 }
 
 func getHosts(prefix string) []string {
-	outputVar := fmt.Sprintf("%s%s", prefix, HostsSuffix)
-	rawOutput, err := execTerraformOutput(outputVar)
-	if err != nil {
-		fatalTerraformOutput(outputVar, err)
-	}
+	outputContent, outputVar := execTerraformOutput(prefix, HostsSuffix)
 
 	var parsed stringArrayJSONValue
-	if err := json.Unmarshal(rawOutput, &parsed); err != nil {
+	if err := json.Unmarshal(outputContent, &parsed); err != nil {
 		fatal(fmt.Sprintf("Unable to parse %s: %s\nOutput from terraform:\n%s",
-			outputVar, err, rawOutput))
+			outputVar, err, outputContent))
 	}
 
 	if len(parsed.Value) == 0 {
@@ -147,13 +130,15 @@ func validateTerraform() {
 	}
 }
 
-func execTerraformOutput(varname string) ([]byte, error) {
-	out, err := exec.Command("terraform", "output", "-json", varname).CombinedOutput()
+func execTerraformOutput(prefix, suffix string) ([]byte, string) {
+	varname := fmt.Sprintf("%s%s", prefix, suffix)
+
+	output, err := exec.Command("terraform", "output", "-json", varname).CombinedOutput()
 	if err != nil {
-		return nil, fmt.Errorf("%s", out)
+		fatalTerraformOutput(varname, err)
 	}
 
-	return out, nil
+	return output, varname
 }
 
 func fatalTerraformOutput(outputVar string, err error) {
