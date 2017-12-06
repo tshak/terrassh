@@ -142,7 +142,7 @@ func execTerraformOutput(prefix, suffix string) ([]byte, string) {
 }
 
 func fatalTerraformOutput(outputVar string, err error) {
-	fatal(fmt.Sprintf("Error executing \"terraform output %s\"\n%s", outputVar, err))
+	fatal(fmt.Sprintf("Error executing \"terraform output %s\". Ensure that the prefix variables are configured properly. \n%s", outputVar, err))
 }
 
 func fatal(message string) {
