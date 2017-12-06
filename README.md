@@ -12,7 +12,7 @@ Ensure that [Terraform](https://terraform.io) is in your path.
 ### Install with Golang
 
 ```
-go get https://github.com/tshak/terrassh
+go get github.com/tshak/terrassh
 ```
 
 ### Install Manually
