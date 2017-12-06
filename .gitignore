@@ -3,3 +3,4 @@ release/
 .terraform/
 *.tfstate
 *.tfstate.backup
+.DS_Store
