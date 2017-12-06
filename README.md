@@ -1,6 +1,8 @@
 # TerraSSH
 
-TerraSSH is a tool to make it easy to SSH into [Terraform](https://terraform.io) managed instances. This is particularly useful in development scenarios where you don't have a stable inventory of machines.
+TerraSSH is a tool to make it easy to SSH into [Terraform](https://terraform.io) managed instances. This is particularly useful in development scenarios where you don't have a stable inventory of machines. For example, to SSH into the first web instance, simply use:
+
+`$ terrassh web`
 
 ## Installation
 
@@ -34,7 +36,7 @@ There are three output variables you must set. A `prefix` is used so that you ca
 | **_ssh_key_path** | The key path to the SSH private key |
 | **_ssh_username** | The SSH username |
 
-You must run a `terraform refresh` or `terraform apply` in order for any output variables to take affect.
+> Note: You must run a `terraform refresh` or `terraform apply` in order for any output variables to take affect.
 
 See [example.tf](example.tf) for a basic example. See the [aws_example](aws_example/) folder for a full AWS example.
 

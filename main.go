@@ -54,8 +54,8 @@ func printHelp() {
 USAGE: terrassh <prefix> (hostIndex)
 
 DETAILS:
-prefix    	Defines the output variable prefix (e.g. "foo" looks for "foo_ssh_hosts" in the terraform output)
-hostIndex		The zero based index of "<prefix>_ssh_hosts" to use as the SSH host (Default 0).
+prefix      Defines the output variable prefix (e.g. "foo" looks for "foo_ssh_hosts" in the terraform output)
+hostIndex   The zero based index of "<prefix>_ssh_hosts" to use as the SSH host (Default 0).
 `)
 
 	os.Exit(2)
