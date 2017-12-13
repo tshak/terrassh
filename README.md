@@ -19,7 +19,7 @@ go get github.com/tshak/terrassh
 
 ### Install Manually
 
-0) Download the release for your platform
+0) Download the [release](https://github.com/tshak/terrassh/releases) for your platform
 0) Extract and copy to your path (e.g. `/usr/local/bin`)
 
 > Note: While Windows binaries are available, they have not been tested. Your best bet is to use [Windows Subsystem for Linux](https://msdn.microsoft.com/en-us/commandline/wsl/install-win10). PR's welcome.
